@@ -7,7 +7,7 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as node from "aws-cdk-lib/aws-lambda-nodejs";
 
-export class SimpleAppStack extends cdk.Stack {
+export class CognitoStack extends cdk.Stack {
   private auth: apig.IResource;
   private userPoolId: string;
   private userPoolClientId: string;
@@ -38,6 +38,12 @@ export class SimpleAppStack extends cdk.Stack {
     });
 
     this.auth = authApi.root.addResource("auth");
+    this.addAuthRoute(
+        "signup",
+        "POST",
+        "SignupFn",
+        "signup.ts"
+        );
   }
 
   private addAuthRoute(
@@ -64,7 +70,7 @@ export class SimpleAppStack extends cdk.Stack {
 
     const fn = new node.NodejsFunction(this, fnName, {
       ...commonFnProps,
-      entry: `${__dirname}/../lambda/auth/${fnEntry}`,
+      entry: `${__dirname}/../lambdas/auth/${fnEntry}`,
     });
 
     resource.addMethod(method, new apig.LambdaIntegration(fn));
