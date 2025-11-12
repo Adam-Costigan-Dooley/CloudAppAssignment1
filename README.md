@@ -7,17 +7,12 @@ __Demo:__ A link to your YouTube video demonstration.
 
 ### Screenshots.
 
-[A screenshot of the App Web API from the management console, e.g.
-
+[Screenshot of the App Web API from the management console
 ![API](image.png)
-
-The Auth API is not required as its code was provided in the labs.
-
 ]
 
-[A screenshot of your seeded table from DynamoDB, e.g.
-
-![][db]
+[screenshot of Seeded table from DynamoDB
+![DB](image-1.png)
 ]
 
 [A screenshot from CloudWatch logs showing an example of User Activity logging, e.g.
