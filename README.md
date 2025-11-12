@@ -3,7 +3,7 @@
 __Name:__ Adam Costigan Dooley
 
 ### Links.
-__Demo:__ A link to your YouTube video demonstration.
+__Demo:__ [A link to your YouTube video demonstration.](https://youtu.be/cw3Hqk764cI)
 
 ### Screenshots.
 
