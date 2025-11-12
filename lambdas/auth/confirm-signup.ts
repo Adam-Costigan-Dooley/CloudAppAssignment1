@@ -51,12 +51,15 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         confirmed: true,
       }),
     };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: err,
-      }),
-    };
-  }
+  } catch (err: any) {
+  console.error("CONFIRM_ERROR", JSON.stringify(err, Object.getOwnPropertyNames(err)));
+  return {
+    statusCode: 500,
+    body: JSON.stringify({
+      name: err?.name,
+      message: err?.message,
+      code: err?.$metadata?.httpStatusCode
+    }),
+  };
+}
 };

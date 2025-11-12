@@ -75,6 +75,22 @@ export class SimpleAppStack extends cdk.Stack {
       },
     });
 
+    const adminApiKey = new apigw.ApiKey(this, "AdminApiKey", {
+      description: "Administrator key for POST/PUT/DELETE on Movies API",
+      enabled: true,
+    });
+
+    const adminPlan = new apigw.UsagePlan(this, "AdminUsagePlan", {
+      name: "MoviesAdminPlan",
+      throttle: { rateLimit: 10, burstLimit: 2 },
+      quota: { limit: 10000, period: apigw.Period.DAY },
+    });
+
+    adminPlan.addApiKey(adminApiKey);
+    adminPlan.addApiStage({
+      stage: api.deploymentStage,
+    });
+
     const moviesRes = api.root.addResource("movies");
     const movieIdRes = moviesRes.addResource("{movieId}");
     movieIdRes.addMethod("GET", new apigw.LambdaIntegration(getMovieFn));
@@ -91,10 +107,12 @@ export class SimpleAppStack extends cdk.Stack {
       new apigw.LambdaIntegration(getMovieCastMemberFn)
     );
 
-    moviesRes.addMethod("POST", new apigw.LambdaIntegration(addMovieFn));
-
-    movieIdRes.addMethod("DELETE", new apigw.LambdaIntegration(deleteMovieFn));
-
+    moviesRes.addMethod("POST", new apigw.LambdaIntegration(addMovieFn), {
+      apiKeyRequired: true,
+    });
+    movieIdRes.addMethod("DELETE", new apigw.LambdaIntegration(deleteMovieFn), {
+      apiKeyRequired: true,
+    });
     const awardsRes = api.root.addResource("awards");
     awardsRes.addMethod("GET", new apigw.LambdaIntegration(getAwardsFn));
 

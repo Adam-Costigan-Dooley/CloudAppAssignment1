@@ -26,7 +26,7 @@ export class AppApi extends Construct {
       architecture: lambda.Architecture.ARM_64,
       timeout: cdk.Duration.seconds(10),
       memorySize: 128,
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       handler: "handler",
       environment: {
         USER_POOL_ID: props.userPoolId,
